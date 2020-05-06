@@ -1,5 +1,4 @@
 ./idea
-.vscode/
 node_modules
 build/
 temp/
@@ -7,3 +6,6 @@ temp/
 tmp/*
 !tmp/.gitkeep
 coverage
+
+.vscode/*
+!.vscode/launch.json
