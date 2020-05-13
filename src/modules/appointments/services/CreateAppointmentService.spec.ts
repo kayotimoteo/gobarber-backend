@@ -1,16 +1,20 @@
 import AppError from '@shared/errors/AppError';
 
+import FakeNotificationsRepository from '@modules/notifications/repositories/fakes/FakeNotificationsRepository';
 import FakeAppointmentsRepository from '../repositories/fakes/FakeAppointmentsRepository';
 import CreateAppointmentService from './CreateAppointmentService';
 
 let fakaAppointmentsRepository: FakeAppointmentsRepository;
+let fakeNotificationsRepository: FakeNotificationsRepository;
 let createAppointment: CreateAppointmentService;
 
 describe('CreateAppointment', () => {
   beforeEach(() => {
     fakaAppointmentsRepository = new FakeAppointmentsRepository();
+    fakeNotificationsRepository = new FakeNotificationsRepository();
     createAppointment = new CreateAppointmentService(
       fakaAppointmentsRepository,
+      fakeNotificationsRepository,
     );
   });
 
@@ -53,7 +57,7 @@ describe('CreateAppointment', () => {
 
   it('should not be able to create an appointment on a past date', async () => {
     jest.spyOn(Date, 'now').mockImplementationOnce(() => {
-      return new Date(2020, 4, 10, 12).getTime();
+      return new Date(2020, 4, 10, 17).getTime();
     });
 
     await expect(

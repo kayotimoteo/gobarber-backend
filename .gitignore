@@ -9,3 +9,6 @@ coverage
 
 .vscode/*
 !.vscode/launch.json
+
+.env
+ormconfig.json
