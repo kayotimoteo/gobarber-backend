@@ -2,17 +2,20 @@ FROM node:lts-alpine
 
 ENV TINI_VERSION v0.18.0
 
-RUN mkdir -p /home/node/api/node_modules && chown -R node:node /home/node/api
+RUN mkdir -p /usr/src/app/node_modules && chown -R node:node /usr/src/app
 
-WORKDIR /home/node/api
+WORKDIR /usr/src/app
 
-COPY --chown=node:node package.json yarn.* ./
+COPY --chown=node:node package.json yarn.* /usr/src/app/
 
 USER node
 
 RUN yarn install --frozen-lockfile
 
-COPY --chown=node:node . .
+COPY --chown=node:node . /usr/src/app
+
+RUN yarn build
+
 
 EXPOSE 3333
 
@@ -21,5 +24,5 @@ EXPOSE 3333
 # RUN chmod +x /tini
 
 # ENTRYPOINT [ "/tini", "--" ]
-
-CMD [ "yarn", "start" ]
+RUN ls
+CMD node dist/shared/infra/http/server.js
